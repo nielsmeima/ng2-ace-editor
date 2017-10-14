@@ -45,6 +45,7 @@ var AceEditorDirective = /** @class */ (function () {
             this._text = newVal;
             this.textChange.emit(newVal);
             this.textChanged.emit(newVal);
+            this.emitCaretLocation();
         }
         else {
             if (this.timeoutSaving != null) {
@@ -54,6 +55,7 @@ var AceEditorDirective = /** @class */ (function () {
                 that._text = newVal;
                 that.textChange.emit(newVal);
                 that.textChanged.emit(newVal);
+                this.emitCaretLocation();
                 that.timeoutSaving = null;
             }, this._durationBeforeCallback);
         }
@@ -61,9 +63,8 @@ var AceEditorDirective = /** @class */ (function () {
     };
     AceEditorDirective.prototype.emitCaretLocation = function () {
         var caret = this.editor.selection.getCursor();
-        var location = this.editor.session.doc.positionToIndex(caret);
-        console.log("SourceCode: " + location);
-        this.caretChange.emit(location);
+        this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+        console.log("CaretD: " + (this.editor.session.doc.positionToIndex(caret)));
     };
     Object.defineProperty(AceEditorDirective.prototype, "options", {
         set: function (options) {
@@ -221,6 +222,7 @@ var AceEditorComponent = /** @class */ (function () {
             this._text = newVal;
             this.textChange.emit(newVal);
             this.textChanged.emit(newVal);
+            this.emitCaretLocation();
             this._onChange(newVal);
         }
         else {
@@ -231,6 +233,7 @@ var AceEditorComponent = /** @class */ (function () {
                 that._text = newVal;
                 that.textChange.emit(newVal);
                 that.textChanged.emit(newVal);
+                this.emitCaretLocation();
                 that.timeoutSaving = null;
             }, this._durationBeforeCallback);
         }
@@ -238,9 +241,8 @@ var AceEditorComponent = /** @class */ (function () {
     };
     AceEditorComponent.prototype.emitCaretLocation = function () {
         var caret = this._editor.selection.getCursor();
-        var location = this._editor.getSession().doc.positionToIndex(caret);
-        console.log("SourceCode: " + location);
-        this.caretChange.emit(location);
+        this.caretChange.emit(this._editor.session.doc.positionToIndex(caret));
+        console.log("CaretD: " + (this._editor.session.doc.positionToIndex(caret)));
     };
     Object.defineProperty(AceEditorComponent.prototype, "options", {
         set: function (options) {

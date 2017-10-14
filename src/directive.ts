@@ -56,6 +56,7 @@ export class AceEditorDirective implements OnInit {
             this._text = newVal;
             this.textChange.emit(newVal);
             this.textChanged.emit(newVal);
+            this.emitCaretLocation();
         } else {
             if (this.timeoutSaving != null) {
                 clearTimeout(this.timeoutSaving);
@@ -65,6 +66,7 @@ export class AceEditorDirective implements OnInit {
                 that._text = newVal;
                 that.textChange.emit(newVal);
                 that.textChanged.emit(newVal);
+                this.emitCaretLocation();
                 that.timeoutSaving = null;
             }, this._durationBeforeCallback);
         }
@@ -74,10 +76,8 @@ export class AceEditorDirective implements OnInit {
     emitCaretLocation()
     {
         const caret: any = this.editor.selection.getCursor();
-        const location = this.editor.session.doc.positionToIndex(caret);
-        console.log("SourceCode: " + location);
-        this.caretChange.emit(location);
-
+        this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+        console.log("CaretD: " + (this.editor.session.doc.positionToIndex(caret)));
     }
 
     @Input() set options(options: any) {

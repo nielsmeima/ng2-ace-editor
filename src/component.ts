@@ -65,6 +65,7 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
             this._text = newVal;
             this.textChange.emit(newVal);
             this.textChanged.emit(newVal);
+            this.emitCaretLocation();
             this._onChange(newVal);
         } else {
             if (this.timeoutSaving) {
@@ -75,6 +76,7 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
                 that._text = newVal;
                 that.textChange.emit(newVal);
                 that.textChanged.emit(newVal);
+                this.emitCaretLocation();
                 that.timeoutSaving = null;
             }, this._durationBeforeCallback);
         }
@@ -85,9 +87,8 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
     emitCaretLocation()
     {
         const caret: any = this._editor.selection.getCursor();
-        const location = this._editor.getSession().doc.positionToIndex(caret);
-        console.log("SourceCode: " + location);
-        this.caretChange.emit(location);
+        this.caretChange.emit(this._editor.session.doc.positionToIndex(caret));
+        console.log("CaretD: " + (this._editor.session.doc.positionToIndex(caret)));
     }
 
     @Input() set options(options: any) {
