@@ -44,7 +44,7 @@ export class AceEditorDirective implements OnInit {
     initEvents() {
         this.editor.on('change', () => this.updateText());
         this.editor.on('paste', () => this.updateText());
-        this.editor.on('changeCursor', () => this.emitCaretLocation());
+        this.editor.on('changeCursor', () => console.log("Cursor change!"));
     }
 
     updateText() {

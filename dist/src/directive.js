@@ -32,7 +32,7 @@ var AceEditorDirective = /** @class */ (function () {
         var _this = this;
         this.editor.on('change', function () { return _this.updateText(); });
         this.editor.on('paste', function () { return _this.updateText(); });
-        this.editor.on('changeCursor', function () { return _this.emitCaretLocation(); });
+        this.editor.on('changeCursor', function () { return console.log("Cursor change!"); });
     };
     AceEditorDirective.prototype.updateText = function () {
         var newVal = this.editor.getValue(), that = this;
