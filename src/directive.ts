@@ -75,7 +75,6 @@ export class AceEditorDirective implements OnInit {
     {
         const caret: any = this.editor.selection.getCursor();
         const location = this.editor.session.doc.positionToIndex(caret);
-        console.log("SourceCode: " + location);
         this.caretChange.emit(location);
 
     }

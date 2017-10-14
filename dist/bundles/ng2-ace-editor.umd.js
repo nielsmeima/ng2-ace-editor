@@ -62,7 +62,6 @@ var AceEditorDirective = /** @class */ (function () {
     AceEditorDirective.prototype.emitCaretLocation = function () {
         var caret = this.editor.selection.getCursor();
         var location = this.editor.session.doc.positionToIndex(caret);
-        console.log("SourceCode: " + location);
         this.caretChange.emit(location);
     };
     Object.defineProperty(AceEditorDirective.prototype, "options", {
@@ -239,6 +238,7 @@ var AceEditorComponent = /** @class */ (function () {
     AceEditorComponent.prototype.emitCaretLocation = function () {
         var caret = this._editor.selection.getCursor();
         var location = this._editor.session.doc.positionToIndex(caret);
+        console.log("SourceCode: " + location);
         this.caretChange.emit(location);
     };
     Object.defineProperty(AceEditorComponent.prototype, "options", {

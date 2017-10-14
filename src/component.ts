@@ -79,12 +79,14 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
             }, this._durationBeforeCallback);
         }
         this.oldText = newVal;
+
     }
 
     emitCaretLocation()
     {
         const caret: any = this._editor.selection.getCursor();
         const location = this._editor.session.doc.positionToIndex(caret);
+        console.log("SourceCode: " + location);
         this.caretChange.emit(location);
     }
 
