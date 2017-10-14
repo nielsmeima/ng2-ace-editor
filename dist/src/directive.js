@@ -63,7 +63,9 @@ var AceEditorDirective = /** @class */ (function () {
         this.oldText = newVal;
     };
     AceEditorDirective.prototype.emitCaretLocation = function () {
-        this.caretChange.emit(this.editor.getSession().doc.positionToIndex(this.editor.selection.getCursor()));
+        var caret = this.editor.selection.getCursor();
+        this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+        console.log("CaretD: " + caret);
     };
     Object.defineProperty(AceEditorDirective.prototype, "options", {
         set: function (options) {

@@ -78,7 +78,9 @@ export class AceEditorDirective implements OnInit {
 
     emitCaretLocation()
     {
-        this.caretChange.emit(this.editor.getSession().doc.positionToIndex(this.editor.selection.getCursor()));
+        const caret: any = this.editor.selection.getCursor();
+        this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+        console.log("CaretD: " + caret);
     }
 
     @Input() set options(options: any) {
