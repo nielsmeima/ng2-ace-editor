@@ -65,7 +65,6 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
             this._text = newVal;
             this.textChange.emit(newVal);
             this.textChanged.emit(newVal);
-            this.emitCaretLocation();
             this._onChange(newVal);
         } else {
             if (this.timeoutSaving) {
@@ -76,7 +75,6 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
                 that._text = newVal;
                 that.textChange.emit(newVal);
                 that.textChanged.emit(newVal);
-                that.emitCaretLocation();
                 that.timeoutSaving = null;
             }, this._durationBeforeCallback);
         }

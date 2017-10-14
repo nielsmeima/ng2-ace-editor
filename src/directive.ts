@@ -56,7 +56,6 @@ export class AceEditorDirective implements OnInit {
             this._text = newVal;
             this.textChange.emit(newVal);
             this.textChanged.emit(newVal);
-            this.emitCaretLocation();
         } else {
             if (this.timeoutSaving != null) {
                 clearTimeout(this.timeoutSaving);
@@ -66,7 +65,6 @@ export class AceEditorDirective implements OnInit {
                 that._text = newVal;
                 that.textChange.emit(newVal);
                 that.textChanged.emit(newVal);
-                that.emitCaretLocation();
                 that.timeoutSaving = null;
             }, this._durationBeforeCallback);
         }

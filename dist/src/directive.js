@@ -43,7 +43,6 @@ var AceEditorDirective = /** @class */ (function () {
             this._text = newVal;
             this.textChange.emit(newVal);
             this.textChanged.emit(newVal);
-            this.emitCaretLocation();
         }
         else {
             if (this.timeoutSaving != null) {
@@ -53,7 +52,6 @@ var AceEditorDirective = /** @class */ (function () {
                 that._text = newVal;
                 that.textChange.emit(newVal);
                 that.textChanged.emit(newVal);
-                that.emitCaretLocation();
                 that.timeoutSaving = null;
             }, this._durationBeforeCallback);
         }
