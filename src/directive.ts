@@ -66,7 +66,7 @@ export class AceEditorDirective implements OnInit {
                 that._text = newVal;
                 that.textChange.emit(newVal);
                 that.textChanged.emit(newVal);
-                this.emitCaretLocation();
+                that.emitCaretLocation();
                 that.timeoutSaving = null;
             }, this._durationBeforeCallback);
         }
