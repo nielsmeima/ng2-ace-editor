@@ -86,7 +86,6 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
     {
         const caret: any = this._editor.selection.getCursor();
         this.caretChange.emit(this._editor.session.doc.positionToIndex(caret));
-        console.log("CaretD: " + (this._editor.session.doc.positionToIndex(caret)));
     }
 
     @Input() set options(options: any) {
