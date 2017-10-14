@@ -1,4 +1,5 @@
 {
+  "name": "ng2-ace-editor",
   "scripts": {
     "transpile": "ngc",
     "package": "rollup -c",
