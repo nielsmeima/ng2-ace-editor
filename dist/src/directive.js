@@ -59,7 +59,9 @@ var AceEditorDirective = /** @class */ (function () {
     };
     AceEditorDirective.prototype.emitCaretLocation = function () {
         var caret = this.editor.selection.getCursor();
-        this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+        var location = this.editor.session.doc.positionToIndex(caret);
+        console.log("SourceCode: " + location);
+        this.caretChange.emit(location);
     };
     Object.defineProperty(AceEditorDirective.prototype, "options", {
         set: function (options) {

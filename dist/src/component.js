@@ -66,7 +66,8 @@ var AceEditorComponent = /** @class */ (function () {
     };
     AceEditorComponent.prototype.emitCaretLocation = function () {
         var caret = this._editor.selection.getCursor();
-        this.caretChange.emit(this._editor.session.doc.positionToIndex(caret));
+        var location = this._editor.session.doc.positionToIndex(caret);
+        this.caretChange.emit(location);
     };
     Object.defineProperty(AceEditorComponent.prototype, "options", {
         set: function (options) {
