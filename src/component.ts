@@ -53,7 +53,7 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
     initEvents() {
         this._editor.on('change', () => this.updateText());
         this._editor.on('paste', () => this.updateText());
-        this._editor.on('changeCursor', () => console.log("Cursor change!"));
+        this._editor.selection.on('changeCursor', () => console.log("Cursor change!"));
     }
 
     updateText() {
