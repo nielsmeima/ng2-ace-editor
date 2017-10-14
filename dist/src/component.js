@@ -36,14 +36,9 @@ var AceEditorComponent = /** @class */ (function () {
     };
     AceEditorComponent.prototype.initEvents = function () {
         var _this = this;
-        this._editor.on('change', function () {
-            _this.updateText();
-            _this.emitCaretLocation();
-        });
-        this._editor.on('paste', function () {
-            _this.updateText();
-            _this.emitCaretLocation();
-        });
+        this._editor.on('change', function () { return _this.updateText(); });
+        this._editor.on('paste', function () { return _this.updateText(); });
+        this._editor.on('changeCursor', function () { return _this.emitCaretLocation(); });
     };
     AceEditorComponent.prototype.updateText = function () {
         var newVal = this._editor.getValue(), that = this;
@@ -71,7 +66,18 @@ var AceEditorComponent = /** @class */ (function () {
     };
     AceEditorComponent.prototype.emitCaretLocation = function () {
         var caret = this._editor.selection.getCursor();
-        this.caretChange.emit(this._editor.session.doc.positionToIndex(caret));
+        if (!this._durationBeforeCallback) {
+            this.caretChange.emit(this._editor.session.doc.positionToIndex(caret));
+        }
+        else {
+            if (this.timeoutSaving != null) {
+                clearTimeout(this.timeoutSaving);
+            }
+            this.timeoutSaving = setTimeout(function () {
+                this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+            }, this._durationBeforeCallback);
+        }
+        console.log("CaretD: " + (this._editor.session.doc.positionToIndex(caret)));
     };
     Object.defineProperty(AceEditorComponent.prototype, "options", {
         set: function (options) {

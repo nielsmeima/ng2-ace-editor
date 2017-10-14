@@ -30,14 +30,9 @@ var AceEditorDirective = /** @class */ (function () {
     };
     AceEditorDirective.prototype.initEvents = function () {
         var _this = this;
-        this.editor.on('change', function () {
-            _this.updateText();
-            _this.emitCaretLocation();
-        });
-        this.editor.on('paste', function () {
-            _this.updateText();
-            _this.emitCaretLocation();
-        });
+        this.editor.on('change', function () { return _this.updateText(); });
+        this.editor.on('paste', function () { return _this.updateText(); });
+        this.editor.on('changeCursor', function () { return _this.emitCaretLocation(); });
     };
     AceEditorDirective.prototype.updateText = function () {
         var newVal = this.editor.getValue(), that = this;
@@ -64,8 +59,17 @@ var AceEditorDirective = /** @class */ (function () {
     };
     AceEditorDirective.prototype.emitCaretLocation = function () {
         var caret = this.editor.selection.getCursor();
-        this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
-        console.log("CaretD: " + (this.editor.session.doc.positionToIndex(caret)));
+        if (!this._durationBeforeCallback) {
+            this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+        }
+        else {
+            if (this.timeoutSaving != null) {
+                clearTimeout(this.timeoutSaving);
+            }
+            this.timeoutSaving = setTimeout(function () {
+                this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+            }, this._durationBeforeCallback);
+        }
     };
     Object.defineProperty(AceEditorDirective.prototype, "options", {
         set: function (options) {

@@ -42,14 +42,9 @@ export class AceEditorDirective implements OnInit {
     }
 
     initEvents() {
-        this.editor.on('change', () => {
-            this.updateText();
-            this.emitCaretLocation();
-        });
-        this.editor.on('paste', () => {
-            this.updateText();
-            this.emitCaretLocation();
-        });
+        this.editor.on('change', () => this.updateText());
+        this.editor.on('paste', () => this.updateText());
+        this.editor.on('changeCursor', () => this.emitCaretLocation());
     }
 
     updateText() {
@@ -79,8 +74,19 @@ export class AceEditorDirective implements OnInit {
     emitCaretLocation()
     {
         const caret: any = this.editor.selection.getCursor();
-        this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
-        console.log("CaretD: " + (this.editor.session.doc.positionToIndex(caret)));
+        if (!this._durationBeforeCallback) {
+            this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+        }
+        else
+        {
+            if (this.timeoutSaving != null) {
+            clearTimeout(this.timeoutSaving);
+            }
+
+            this.timeoutSaving = setTimeout(function() {
+                this.caretChange.emit(this.editor.session.doc.positionToIndex(caret));
+            }, this._durationBeforeCallback);
+        }
     }
 
     @Input() set options(options: any) {
