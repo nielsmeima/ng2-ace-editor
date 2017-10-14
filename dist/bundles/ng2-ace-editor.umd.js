@@ -237,7 +237,7 @@ var AceEditorComponent = /** @class */ (function () {
     };
     AceEditorComponent.prototype.emitCaretLocation = function () {
         var caret = this._editor.selection.getCursor();
-        var location = this._editor.session.doc.positionToIndex(caret);
+        var location = this._editor.getSession().doc.positionToIndex(caret);
         console.log("SourceCode: " + location);
         this.caretChange.emit(location);
     };
