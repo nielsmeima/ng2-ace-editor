@@ -7,6 +7,7 @@ var AceEditorComponent = /** @class */ (function () {
     function AceEditorComponent(elementRef) {
         this.textChanged = new EventEmitter();
         this.textChange = new EventEmitter();
+        this.caretChange = new EventEmitter();
         this.style = {};
         this._options = {};
         this._readOnly = false;
@@ -35,8 +36,14 @@ var AceEditorComponent = /** @class */ (function () {
     };
     AceEditorComponent.prototype.initEvents = function () {
         var _this = this;
-        this._editor.on('change', function () { return _this.updateText(); });
-        this._editor.on('paste', function () { return _this.updateText(); });
+        this._editor.on('change', function () {
+            _this.updateText();
+            _this.emitCaretLocation();
+        });
+        this._editor.on('paste', function () {
+            _this.updateText();
+            _this.emitCaretLocation();
+        });
     };
     AceEditorComponent.prototype.updateText = function () {
         var newVal = this._editor.getValue(), that = this;
@@ -61,6 +68,9 @@ var AceEditorComponent = /** @class */ (function () {
             }, this._durationBeforeCallback);
         }
         this.oldText = newVal;
+    };
+    AceEditorComponent.prototype.emitCaretLocation = function () {
+        this.caretChange.emit(this._editor.getSession().doc.positionToIndex(this._editor.selection.getCursor()));
     };
     Object.defineProperty(AceEditorComponent.prototype, "options", {
         set: function (options) {
@@ -193,6 +203,7 @@ var AceEditorComponent = /** @class */ (function () {
     AceEditorComponent.propDecorators = {
         'textChanged': [{ type: Output },],
         'textChange': [{ type: Output },],
+        'caretChange': [{ type: Output },],
         'style': [{ type: Input },],
         'options': [{ type: Input },],
         'readOnly': [{ type: Input },],

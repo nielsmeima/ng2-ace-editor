@@ -11,6 +11,7 @@ declare var ace: any;
 export class AceEditorDirective implements OnInit {
     @Output() textChanged = new EventEmitter();
     @Output() textChange = new EventEmitter();
+    @Output() caretChange = new EventEmitter();
     _options: any = {};
     _readOnly: boolean = false;
     _theme: string = "monokai";
@@ -41,8 +42,14 @@ export class AceEditorDirective implements OnInit {
     }
 
     initEvents() {
-        this.editor.on('change', () => this.updateText());
-        this.editor.on('paste', () => this.updateText());
+        this.editor.on('change', () => {
+            this.updateText();
+            this.emitCaretLocation();
+        });
+        this.editor.on('paste', () => {
+            this.updateText();
+            this.emitCaretLocation();
+        });
     }
 
     updateText() {
@@ -67,6 +74,11 @@ export class AceEditorDirective implements OnInit {
             }, this._durationBeforeCallback);
         }
         this.oldText = newVal;
+    }
+
+    emitCaretLocation()
+    {
+        this.caretChange.emit(this.editor.getSession().doc.positionToIndex(this.editor.selection.getCursor()));
     }
 
     @Input() set options(options: any) {

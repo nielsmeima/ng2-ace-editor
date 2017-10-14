@@ -19,6 +19,7 @@ declare var ace: any;
 export class AceEditorComponent implements ControlValueAccessor, OnInit {
     @Output() textChanged = new EventEmitter();
     @Output() textChange = new EventEmitter();
+    @Output() caretChange = new EventEmitter();
     @Input() style: any = {};
     _options: any = {};
     _readOnly: boolean = false;
@@ -50,8 +51,14 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
     }
 
     initEvents() {
-        this._editor.on('change', () => this.updateText());
-        this._editor.on('paste', () => this.updateText());
+        this._editor.on('change', () => {
+            this.updateText();
+            this.emitCaretLocation();
+        });
+        this._editor.on('paste', () => {
+            this.updateText();
+            this.emitCaretLocation();
+        });
     }
 
     updateText() {
@@ -77,6 +84,11 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit {
             }, this._durationBeforeCallback);
         }
         this.oldText = newVal;
+    }
+
+    emitCaretLocation()
+    {
+        this.caretChange.emit(this._editor.getSession().doc.positionToIndex(this._editor.selection.getCursor()));
     }
 
     @Input() set options(options: any) {

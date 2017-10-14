@@ -6,6 +6,7 @@ var AceEditorDirective = /** @class */ (function () {
     function AceEditorDirective(elementRef) {
         this.textChanged = new EventEmitter();
         this.textChange = new EventEmitter();
+        this.caretChange = new EventEmitter();
         this._options = {};
         this._readOnly = false;
         this._theme = "monokai";
@@ -29,8 +30,14 @@ var AceEditorDirective = /** @class */ (function () {
     };
     AceEditorDirective.prototype.initEvents = function () {
         var _this = this;
-        this.editor.on('change', function () { return _this.updateText(); });
-        this.editor.on('paste', function () { return _this.updateText(); });
+        this.editor.on('change', function () {
+            _this.updateText();
+            _this.emitCaretLocation();
+        });
+        this.editor.on('paste', function () {
+            _this.updateText();
+            _this.emitCaretLocation();
+        });
     };
     AceEditorDirective.prototype.updateText = function () {
         var newVal = this.editor.getValue(), that = this;
@@ -54,6 +61,9 @@ var AceEditorDirective = /** @class */ (function () {
             }, this._durationBeforeCallback);
         }
         this.oldText = newVal;
+    };
+    AceEditorDirective.prototype.emitCaretLocation = function () {
+        this.caretChange.emit(this.editor.getSession().doc.positionToIndex(this.editor.selection.getCursor()));
     };
     Object.defineProperty(AceEditorDirective.prototype, "options", {
         set: function (options) {
@@ -153,6 +163,7 @@ var AceEditorDirective = /** @class */ (function () {
     AceEditorDirective.propDecorators = {
         'textChanged': [{ type: Output },],
         'textChange': [{ type: Output },],
+        'caretChange': [{ type: Output },],
         'options': [{ type: Input },],
         'readOnly': [{ type: Input },],
         'theme': [{ type: Input },],

@@ -5,6 +5,7 @@ import 'brace/mode/html';
 export declare class AceEditorDirective implements OnInit {
     textChanged: EventEmitter<{}>;
     textChange: EventEmitter<{}>;
+    caretChange: EventEmitter<{}>;
     _options: any;
     _readOnly: boolean;
     _theme: string;
@@ -20,6 +21,7 @@ export declare class AceEditorDirective implements OnInit {
     init(): void;
     initEvents(): void;
     updateText(): void;
+    emitCaretLocation(): void;
     options: any;
     readOnly: any;
     theme: any;

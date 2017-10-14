@@ -6,6 +6,7 @@ import 'brace/mode/html';
 export declare class AceEditorComponent implements ControlValueAccessor, OnInit {
     textChanged: EventEmitter<{}>;
     textChange: EventEmitter<{}>;
+    caretChange: EventEmitter<{}>;
     style: any;
     _options: any;
     _readOnly: boolean;
@@ -22,6 +23,7 @@ export declare class AceEditorComponent implements ControlValueAccessor, OnInit 
     init(): void;
     initEvents(): void;
     updateText(): void;
+    emitCaretLocation(): void;
     options: any;
     setOptions(options: any): void;
     readOnly: any;
